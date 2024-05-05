@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Vlvt.Components;
 using Vlvt.Components.Account;
 using Vlvt.Data;
+using Vlvt.Data.Repositories;
+using Vlvt.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +36,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<ICookbookService, CookbookService>();
 
 var app = builder.Build();
 

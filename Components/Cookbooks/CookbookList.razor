@@ -1,0 +1,31 @@
+@page "/cookbooks"
+@inject ICookbookService CookbookService
+@rendermode InteractiveServer
+
+<PageTitle>Cookbooks</PageTitle>
+
+<h2>Cookbooks</h2>
+
+@if (cookbooks.Count == 0)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul>
+        @foreach(var item in cookbooks)
+        {
+            <li>@item.Name</li>
+        }
+    </ul>
+}
+
+@code {
+    List<Cookbook> cookbooks = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+        cookbooks = await CookbookService.GetAllCookbooksAsync();
+    }
+}
