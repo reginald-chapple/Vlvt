@@ -14,16 +14,16 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     {
     }
 
-    public DbSet<Cookbook> Cookbooks { get; set; }
-    public DbSet<Recipe> Recipes { get; set; }
-    public DbSet<CookbookRecipe> CookbookRecipes { get; set; }
-    public DbSet<Equipment> Equipment { get; set; }
-    public DbSet<Instruction> Instructions { get; set; }
-    public DbSet<Meal> Meals { get; set; }
-    public DbSet<Plan> Plans { get; set; }
-    public DbSet<MealPlan> MealPlans { get; set; }
-    public DbSet<Ingredient> Ingredients { get; set; }
-    public DbSet<MealRecipe> MealRecipes { get; set; }
+    public DbSet<Organization> Organizations { get; set; }
+    public DbSet<Belief> Beliefs { get; set; }
+    public DbSet<Meeting> Meetings { get; set; }
+    public DbSet<Member> Members { get; set; }
+    public DbSet<MeetingMember> MeetingMembers { get; set; }
+    public DbSet<OrganizationRole> OrganizationRoles { get; set; }
+    public DbSet<MemberRole> MemberRoles { get; set; }
+    public DbSet<Value> Values { get; set; }
+    public DbSet<Fundraiser> Fundraisers { get; set; }
+    public DbSet<Donation> Donations { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -44,9 +44,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
                 .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
         });
-        builder.ApplyConfiguration(new CookbookRecipeConfiguration());
-        builder.ApplyConfiguration(new MealPlanConfiguration());
-        builder.ApplyConfiguration(new MealRecipeConfiguration());
+        builder.ApplyConfiguration(new MemberRoleConfiguration());
+        builder.ApplyConfiguration(new MeetingMemberConfiguration());
     }
 
     public override int SaveChanges()

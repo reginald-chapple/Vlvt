@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Server.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class AccountController : ControllerBase
@@ -63,8 +65,10 @@ public class AccountController : ControllerBase
         {
             var authClaims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Name, user.UserName!),
+                new Claim("FullName", user.FullName)
             };
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]!));
@@ -79,13 +83,30 @@ public class AccountController : ControllerBase
 
             return Ok(new
             {
-                key = user.Id,
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expiration = token.ValidTo
             });
         }
 
         return Unauthorized();
+    }
+
+    [HttpGet]
+    [Route("token")]
+    public IActionResult Token()
+    {
+        //get the access token from the HttpContext
+        var token = "Token";
+        //await HttpContext.GetTokenAsync("access_token");
+        return Ok(new { token });
+    }
+
+    [HttpGet]
+    [Route("user-info")]
+    public IActionResult UserInfo()
+    {
+        var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        return Ok(new { user });
     }
 
     // Additional actions like Logout, ChangePassword, etc. can be added here

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -40,8 +42,9 @@ class _LoginPageState extends State<LoginPage> {
   final _userManager = UserManager();
 
   Future<void> _login() async {
+    var path = Platform.isAndroid ? "http://10.0.2.2" : "http://127.0.0.1";
     var response = await http.post(
-      Uri.parse('http://localhost:5136/api/account/login'),
+      Uri.parse('$path:5136/api/account/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -53,12 +56,12 @@ class _LoginPageState extends State<LoginPage> {
 
     if (response.statusCode == 200) {
       var token = jsonDecode(response.body)['token'];
-      var userId = jsonDecode(response.body)['key'];
+      // var userId = jsonDecode(response.body)['key'];
       await _userManager.storeUserToken(token);
-      await _userManager.storeUserId(userId);
+      // await _userManager.storeUserId(userId);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const ProtectedView()),
+        MaterialPageRoute(builder: (context) => ProtectedView()),
       );
     } else {
       // Handle error or unauthorized access

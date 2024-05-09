@@ -7,6 +7,12 @@ class User {
   User({required this.id, required this.token});
 }
 
+class UserInfo {
+  final String name;
+
+  UserInfo({required this.name});
+}
+
 class UserProvider with ChangeNotifier {
   User? _user;
 

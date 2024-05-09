@@ -12,6 +12,11 @@ class UserManager {
     return token;
   }
 
+  Future<bool> checkToken() async {
+    var token = await _storage.read(key: 'userToken');
+    return token != null;
+  }
+
   // You might also want to store other user details
   Future<void> storeUserId(String userId) async {
     await _storage.write(key: 'userId', value: userId);

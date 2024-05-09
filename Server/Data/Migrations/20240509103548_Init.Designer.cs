@@ -11,7 +11,7 @@ using Server.Data;
 namespace Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240507113921_Init")]
+    [Migration("20240509103548_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -217,7 +217,372 @@ namespace Server.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Server.Domain.Cookbook", b =>
+            modelBuilder.Entity("Server.Domain.Belief", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OrganizationId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("Beliefs");
+                });
+
+            modelBuilder.Entity("Server.Domain.Donation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("FundraiserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FundraiserId");
+
+                    b.ToTable("Donations");
+                });
+
+            modelBuilder.Entity("Server.Domain.Fundraiser", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ClosedDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly?>("Deadline")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Goal")
+                        .HasPrecision(9, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsClosed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OrganizationId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Purpose")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("Fundraisers");
+                });
+
+            modelBuilder.Entity("Server.Domain.Meeting", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OrganizationId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("Meetings");
+                });
+
+            modelBuilder.Entity("Server.Domain.MeetingMember", b =>
+                {
+                    b.Property<string>("MemberId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("MeetingId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("MemberId", "MeetingId");
+
+                    b.HasIndex("MeetingId");
+
+                    b.ToTable("MeetingMembers");
+                });
+
+            modelBuilder.Entity("Server.Domain.Member", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OrganizationId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("Members");
+                });
+
+            modelBuilder.Entity("Server.Domain.MemberRole", b =>
+                {
+                    b.Property<string>("MemberId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("MemberId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("MemberRoles");
+                });
+
+            modelBuilder.Entity("Server.Domain.Organization", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Background")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Faith")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Mission")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organizations");
+                });
+
+            modelBuilder.Entity("Server.Domain.OrganizationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OrganizationId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("OrganizationRoles");
+                });
+
+            modelBuilder.Entity("Server.Domain.Value", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -247,90 +612,7 @@ namespace Server.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cookbooks");
-                });
-
-            modelBuilder.Entity("Server.Domain.CookbookRecipe", b =>
-                {
-                    b.Property<long>("CookbookId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("RecipeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("CookbookId", "RecipeId");
-
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("CookbookRecipes");
-                });
-
-            modelBuilder.Entity("Server.Domain.Equipment", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<long>("RecipeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("Equipment");
-                });
-
-            modelBuilder.Entity("Server.Domain.Ingredient", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<long>("InstructionId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("OrganizationId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -339,258 +621,9 @@ namespace Server.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstructionId");
+                    b.HasIndex("OrganizationId");
 
-                    b.ToTable("Ingredients");
-                });
-
-            modelBuilder.Entity("Server.Domain.Instruction", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("Duration")
-                        .HasColumnType("REAL");
-
-                    b.Property<int>("DurationInterval")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<long?>("RecipeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Step")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("Temperature")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("Instructions");
-                });
-
-            modelBuilder.Entity("Server.Domain.Meal", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Meals");
-                });
-
-            modelBuilder.Entity("Server.Domain.MealPlan", b =>
-                {
-                    b.Property<long>("MealId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("PlanId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("MealId", "PlanId");
-
-                    b.HasIndex("PlanId");
-
-                    b.ToTable("MealPlans");
-                });
-
-            modelBuilder.Entity("Server.Domain.MealRecipe", b =>
-                {
-                    b.Property<long>("MealId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("RecipeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("MealId", "RecipeId");
-
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("MealRecipes");
-                });
-
-            modelBuilder.Entity("Server.Domain.Plan", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("EndDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Plans");
-                });
-
-            modelBuilder.Entity("Server.Domain.Recipe", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Complexity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Cuisine")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DietaryPreference")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("EstimatedTime")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("MealComponent")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Occasion")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Seasonality")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ServingTemperature")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Spiciness")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Taste")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Recipes");
+                    b.ToTable("Values");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -648,90 +681,127 @@ namespace Server.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Server.Domain.CookbookRecipe", b =>
+            modelBuilder.Entity("Server.Domain.Belief", b =>
                 {
-                    b.HasOne("Server.Domain.Cookbook", "Cookbook")
-                        .WithMany("Recipes")
-                        .HasForeignKey("CookbookId")
+                    b.HasOne("Server.Domain.Organization", "Organization")
+                        .WithMany("Beliefs")
+                        .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Server.Domain.Recipe", "Recipe")
-                        .WithMany("Cookbooks")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cookbook");
-
-                    b.Navigation("Recipe");
+                    b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("Server.Domain.Equipment", b =>
+            modelBuilder.Entity("Server.Domain.Donation", b =>
                 {
-                    b.HasOne("Server.Domain.Recipe", "Recipe")
-                        .WithMany("Equipment")
-                        .HasForeignKey("RecipeId")
+                    b.HasOne("Server.Domain.Fundraiser", "Fundraiser")
+                        .WithMany("Donations")
+                        .HasForeignKey("FundraiserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Recipe");
+                    b.Navigation("Fundraiser");
                 });
 
-            modelBuilder.Entity("Server.Domain.Ingredient", b =>
+            modelBuilder.Entity("Server.Domain.Fundraiser", b =>
                 {
-                    b.HasOne("Server.Domain.Instruction", "Instruction")
-                        .WithMany("Ingredients")
-                        .HasForeignKey("InstructionId")
+                    b.HasOne("Server.Domain.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Instruction");
+                    b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("Server.Domain.Instruction", b =>
+            modelBuilder.Entity("Server.Domain.Meeting", b =>
                 {
-                    b.HasOne("Server.Domain.Recipe", null)
-                        .WithMany("Instructions")
-                        .HasForeignKey("RecipeId");
+                    b.HasOne("Server.Domain.Organization", "Organization")
+                        .WithMany("Meetings")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("Server.Domain.MealPlan", b =>
+            modelBuilder.Entity("Server.Domain.MeetingMember", b =>
                 {
-                    b.HasOne("Server.Domain.Meal", "Meal")
-                        .WithMany("Plans")
-                        .HasForeignKey("MealId")
+                    b.HasOne("Server.Domain.Meeting", "Meeting")
+                        .WithMany("Members")
+                        .HasForeignKey("MeetingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Server.Domain.Plan", "Plan")
-                        .WithMany("Meals")
-                        .HasForeignKey("PlanId")
+                    b.HasOne("Server.Domain.Member", "Member")
+                        .WithMany("Meetings")
+                        .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Meal");
+                    b.Navigation("Meeting");
 
-                    b.Navigation("Plan");
+                    b.Navigation("Member");
                 });
 
-            modelBuilder.Entity("Server.Domain.MealRecipe", b =>
+            modelBuilder.Entity("Server.Domain.Member", b =>
                 {
-                    b.HasOne("Server.Domain.Meal", "Meal")
-                        .WithMany("Recipes")
-                        .HasForeignKey("MealId")
+                    b.HasOne("Server.Domain.ApplicationUser", "Identity")
+                        .WithMany()
+                        .HasForeignKey("IdentityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Server.Domain.Recipe", "Recipe")
-                        .WithMany("Meals")
-                        .HasForeignKey("RecipeId")
+                    b.HasOne("Server.Domain.Organization", "Organization")
+                        .WithMany("Members")
+                        .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Meal");
+                    b.Navigation("Identity");
 
-                    b.Navigation("Recipe");
+                    b.Navigation("Organization");
+                });
+
+            modelBuilder.Entity("Server.Domain.MemberRole", b =>
+                {
+                    b.HasOne("Server.Domain.Member", "Member")
+                        .WithMany("Roles")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Server.Domain.OrganizationRole", "Role")
+                        .WithMany("Members")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Server.Domain.OrganizationRole", b =>
+                {
+                    b.HasOne("Server.Domain.Organization", "Organization")
+                        .WithMany("Roles")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
+                });
+
+            modelBuilder.Entity("Server.Domain.Value", b =>
+                {
+                    b.HasOne("Server.Domain.Organization", "Organization")
+                        .WithMany("Values")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("Server.Domain.ApplicationRole", b =>
@@ -744,37 +814,39 @@ namespace Server.Data.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Server.Domain.Cookbook", b =>
+            modelBuilder.Entity("Server.Domain.Fundraiser", b =>
                 {
-                    b.Navigation("Recipes");
+                    b.Navigation("Donations");
                 });
 
-            modelBuilder.Entity("Server.Domain.Instruction", b =>
+            modelBuilder.Entity("Server.Domain.Meeting", b =>
                 {
-                    b.Navigation("Ingredients");
+                    b.Navigation("Members");
                 });
 
-            modelBuilder.Entity("Server.Domain.Meal", b =>
+            modelBuilder.Entity("Server.Domain.Member", b =>
                 {
-                    b.Navigation("Plans");
+                    b.Navigation("Meetings");
 
-                    b.Navigation("Recipes");
+                    b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("Server.Domain.Plan", b =>
+            modelBuilder.Entity("Server.Domain.Organization", b =>
                 {
-                    b.Navigation("Meals");
+                    b.Navigation("Beliefs");
+
+                    b.Navigation("Meetings");
+
+                    b.Navigation("Members");
+
+                    b.Navigation("Roles");
+
+                    b.Navigation("Values");
                 });
 
-            modelBuilder.Entity("Server.Domain.Recipe", b =>
+            modelBuilder.Entity("Server.Domain.OrganizationRole", b =>
                 {
-                    b.Navigation("Cookbooks");
-
-                    b.Navigation("Equipment");
-
-                    b.Navigation("Instructions");
-
-                    b.Navigation("Meals");
+                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }
